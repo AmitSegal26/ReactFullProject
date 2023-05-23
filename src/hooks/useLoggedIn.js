@@ -12,6 +12,11 @@ const useLoggedIn = () => {
         return;
       }
       await axios.get("/users/userInfo");
+      let { data } = await axios.get("/users/userInfo");
+      if (!data) {
+        localStorage.clear();
+        throw "invalid token";
+      }
       const payload = jwt_decode(token);
       dispatch(authActions.login(payload));
     } catch (err) {
